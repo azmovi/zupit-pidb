@@ -1,0 +1,32 @@
+services:
+  zupit_database:
+    image: postgres
+    volumes:
+      # - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./populate.sql:/docker-entrypoint-initdb.d/populate.sql
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_DB: zupit_db
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+  zupit_app:
+    image: zupit_app 
+    entrypoint: ./entrypoint.sh
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - zupit_database
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@zupit_database:5432/zupit_db
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
