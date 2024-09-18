@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da viagem</title>
+    <link href="{{ url_for('static', path='style.css') }}" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        section#historico {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #ffffff;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: #000; /* Adicionando cor ao texto das células */
+        }
+
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        .space-between {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .button1 {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button1:hover {
+            background-color: #007bb5;
+        }
+
+        .disabled {
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .normal {
+            color: #000;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+    
+    </style>
+</head>
+<body user_id="{{ user.id }}">
+    <section id="historico">
+        <!-- Incluindo a barra de navegação -->
+        {% include 'navbar.html' %}
+        <br>
+        <h1>Detalhes da Viagem</h1>
+        <h2>Motorista</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Carro</th>
+                    <th>Placa do Carro</th>
+                    <th>Avaliação</th>
+                    <th>Avaliar Motorista</th> <!-- Coluna para o botão -->
+                    <th>Chat</th> <!-- Coluna para o botão -->
+                </tr>
+            </thead>
+            <tbody id="travel-table-body">
+                <tr>
+                    <td colspan="7">Carregando...</td>  <!-- Alterado para colspan="7" -->
+                </tr>
+            </tbody>
+        </table>
+        <h3>Passageiros</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Avaliação</th>
+                    <th>Avaliar Passageiro</th> <!-- Coluna para o botão -->
+                    <th>Chat</th> <!-- Coluna para o botão -->
+
+                </tr>
+            </thead>
+            <tbody id="travel-passengers-table-body">
+                <tr>
+                    <td colspan="7">Carregando...</td> 
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <script src="{{ url_for('static', path='/script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Captura o pathname da URL, que no caso será algo como "/trip-participants/1"
+            const urlPath = window.location.pathname;
+            const userAtual_id = document.body.getAttribute('user_id');
+            // Divida o caminho da URL e pegue o último item, que é o travel_id
+            const travel_id = urlPath.split('/').pop();  // Pega o último segmento da URL (1 neste caso)
+            // Passa o travel_id para a função get_driver
+            get_driver_info(travel_id, userAtual_id);
+            get_passenger_info(travel_id, userAtual_id);
+        });
+    
+    </script>    
+</body>
+</html>

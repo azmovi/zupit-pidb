@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Offer second step </title>
+        <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <section class="">
+            {% include 'navbar.html' %}
+            <h1>Data e Hora de Partida</h1>
+            <form action="/offer/third">
+                <input type="date" id="departure_date" name="departure_date" placeholder="Data de Saída:"><br><br>
+
+                <input type="time" id="departure_time" name="departure_time" placeholder="Horário de Saída:"><br><br>
+
+                <button class="button3" type="submit" id="confirm">Próximo</button>
+            </form>
+            <a class="button3" href="javascript:history.back()">Voltar</a>
+        </section>
+
+        <script src="{{ url_for('static', path='/script.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                save_form('second');
+            });
+        </script>
+    </body>
+</html>

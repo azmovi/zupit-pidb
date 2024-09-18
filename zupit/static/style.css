@@ -1,0 +1,118 @@
+body {
+    background-color: rgb(45, 83, 223); /* O valor alpha foi adicionado */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Alinha verticalmente */
+    height: 100vh; 
+    font-family: Arial, sans-serif;
+    color: #FFFFFF;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 50px;
+    place-items: center;
+    height: fit-content;
+    width: 450px;
+    text-align: center ;
+}
+
+form {
+    width: 100%;
+}
+.padding {
+    padding: 30px;
+}
+.container-gap {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.justify-start{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.space-between {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.button1 {
+    background-color: #051ead; 
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+.button1:hover {
+    background-color: #667ae9;
+}
+.button2 {
+    background-color: #051ead; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+.button2:hover {
+    background-color: #667ae9;
+}
+
+.button3 {
+    background-color: #051ead; 
+    border: none;
+    color: white;
+    padding: 15px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+.button3:hover {
+    background-color: #667ae9;
+}
+
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="time"],
+input[type="date"] {
+    width: 100%; /* Faz o campo de entrada ocupar toda a largura disponível */
+    padding: 10px; /* Adiciona espaço interno (padding) ao redor do texto */ /* Espaçamento abaixo do campo */
+    border: 1px solid #ccc; /* Borda cinza clara */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho da fonte */
+    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura total */
+}
+
+input[type="text"]::placeholder
+input[type="date"]::placeholder {
+    color: #f10000; /* Cor do placeholder */
+    font-style: italic; /* Estilo do placeholder */
+}

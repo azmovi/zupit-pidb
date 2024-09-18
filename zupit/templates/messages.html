@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        .message:last-child {
+            border-bottom: none;
+        }
+
+        .message .sender {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .message .content {
+            margin: 0; /* Remove a margem extra */
+            color: #333;
+        }
+
+        .message .timestamp {
+            color: #888; /* Cor mais fraquinha */
+            font-size: 0.8em;
+            position: absolute;
+            right: 10px; /* Alinha à direita */
+            bottom: 8px; /* Ajusta a posição vertical */
+        }
+
+        .input-container {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .input-container textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .input-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="chat-container">
+        <h1>{{ chat.first }} está conversando com {{ chat.second }}</h1>
+        <ul class="messages" id="messages">
+            {% if messages | length > 0 %}
+                {% for message in messages %}
+                    <li class="message">
+                        <p class="content">{{ message.message }}</p>
+                        <p class="timestamp">{{ message.created_at }}</p>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="message">Nenhuma mensagem encontrada.</li>
+            {% endif %}
+        </ul>
+
+        <div class="input-container">
+            <textarea id="message" rows="4"></textarea>
+            <button id="send">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        const ws = new WebSocket(`ws://${window.location.host}/messages/ws/{{ chat.id }}/`);
+        ws.onmessage = function(event) {
+            const messages = document.getElementById('messages');
+            const message = document.createElement('li');
+            message.classList.add('message');
+            message.innerHTML = `<p class="content">${event.data}</p>`;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        };
+
+        document.getElementById('send').addEventListener('click', () => {
+            const input = document.getElementById('message');
+            const message = input.value.trim()
+            if (message === '') {
+                return;
+            }
+            const user = "{{ chat.first }}";
+            const id = "{{ user.id }}"
+            ws.send(`${id} - ${user}: ${message}`);
+            input.value = '';
+        });
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Offer third step </title>
+        <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+        <style>
+            .switch {
+              position: relative;
+              display: inline-block;
+              width: 60px;
+              height: 34px;
+            }
+
+            .switch input { 
+              opacity: 0;
+              width: 0;
+              height: 0;
+            }
+
+            .slider {
+              position: absolute;
+              cursor: pointer;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: #ccc;
+              -webkit-transition: .4s;
+              transition: .4s;
+            }
+
+            .slider:before {
+              position: absolute;
+              content: "";
+              height: 26px;
+              width: 26px;
+              left: 4px;
+              bottom: 4px;
+              background-color: white;
+              -webkit-transition: .4s;
+              transition: .4s;
+            }
+
+            input:checked + .slider {
+              background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+              box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+              -webkit-transform: translateX(26px);
+              -ms-transform: translateX(26px);
+              transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+              border-radius: 34px;
+            }
+
+            .slider.round:before {
+              border-radius: 50%;
+            }
+        </style>
+    </head>
+    <body user_id="{{ user.id }}">
+        <section class="">
+            {% include 'navbar.html' %}
+            <h1>Informação sobre o local de embarque</h1>
+            <form id="offer" action="/offer/fourth">
+                <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
+                <input type="hidden" id="direction" name="direction" value="PICK_UP"/>
+
+                <input type="text" id="cep" name="cep" placeholder="CEP:" required><br><br>
+
+                <input type="text" id="street" name="street" placeholder="Rua:" readonly><br><br>
+
+                <input type="text" id="district" name="district" placeholder="Bairro:" readonly><br><br>
+
+                <input type="text" id="city" name="city" placeholder="Cidade:" readonly><br><br>
+
+                <input type="text" id="state" name="state" placeholder="Estado:" readonly><br><br>
+
+                <input type="text" id="house_number" name="house_number" placeholder="Número:" required><br><br>
+
+                <button class="button3" type="submit" id="confirm">Próximo</button>
+            </form>
+
+            <h2> Adicionar Ponto intermedirio </h2>
+            <label class="switch">
+                <input type="checkbox" id="switch">
+                <span class="slider round"></span>
+            </label>
+
+            <a class="button3" href="javascript:history.back()">Voltar</a>
+        </section>
+
+        <script src="{{ url_for('static', path='/script.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                save_form('third');
+            });
+
+            document.getElementById('cep').addEventListener('blur', function() {
+                find_cep(this.value);
+            });
+
+            document.getElementById('switch').addEventListener('change', function() {
+                var form = document.getElementById('offer');
+                if (this.checked) {
+                    form.action = '/offer/sixth';
+                } else {
+                    form.action = '/offer/fourth';
+                }
+            });
+        </script>
+    </body>
+</html>

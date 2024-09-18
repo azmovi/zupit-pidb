@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Travel Confirmation</title>
+        <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        {% if error %}
+            <script>
+                alert("{{ error }}");
+            </script>
+        {% endif %}
+        <section class="">
+            {% include 'navbar.html' %}
+            <h1>Confirmação de Viagem</h1>
+            <form>
+                <button class="button3" type="submit" id="confirm">Confirmar Viagem</button>
+            </form>
+            <a class="button3" href="javascript:history.back()">Voltar</a>
+        </section>
+
+        <script>
+            const first = JSON.parse(sessionStorage.getItem("first"));
+            const second = JSON.parse(sessionStorage.getItem("second"));
+            const third = JSON.parse(sessionStorage.getItem("third"));
+            const fourth = JSON.parse(sessionStorage.getItem("fourth"));
+            const sixth = JSON.parse(sessionStorage.getItem("sixth"));
+
+            const date = second['departure_date']
+            const time = second['departure_time']
+            let timestamp = `${date}T${time}`;
+            timestamp = new Date(timestamp);
+
+            const data = {
+                user_id: first['user_id'],
+                renavam: first['renavam'],
+                space: first['space'],
+                departure: timestamp,
+                origin: third,
+                middle: sixth,
+                destination: fourth,
+            };
+            console.log(data);
+
+            document.getElementById('confirm').addEventListener('click', async function (event) {
+                event.preventDefault();
+                fetch("/travels/", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro na resposta do servidor!');
+                        }
+                        window.location.href = response.url;
+                    })
+                    .then(data => console.log("Success:", data))
+                    .catch(error => console.error("Error:", error));
+            });
+        </script>
+    </body>
+</html>
+

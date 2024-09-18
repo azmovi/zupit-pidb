@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    {% if error %}
+        <script>
+            alert("{{ error }}");
+        </script>
+    {% endif %}
+    <section class="">
+        {% include 'navbar.html' %}
+        <h1>LOGIN</h1>
+        <form action="/users/confirm-user" method="POST">
+            <input type="email" id="email" placeholder="E-mail" name="email" required><br><br>
+            <input type="password" id="password" name="password" placeholder="Senha"  required><br><br>
+            <button class="button2" type="submit">Entrar</button>
+        </form>
+        <a class="button3" href="/sign-up">Crie sua conta</a>
+    </section>
+</body>
+</html>
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Offer third step </title>
+        <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    </head>
+    <body user_id="{{ user.id }}">
+        <section class="">
+            {% include 'navbar.html' %}
+            <h1>Informação sobre o local Intermediario</h1>
+            <form action="/offer/fourth">
+                <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
+                <input type="hidden" id="direction" name="direction" value="MIDDLE"/>
+
+                <input type="text" id="cep" name="cep" placeholder="CEP:" required><br><br>
+
+                <input type="text" id="street" name="street" placeholder="Rua:" readonly><br><br>
+
+                <input type="text" id="district" name="district" placeholder="Bairro:" readonly><br><br>
+
+                <input type="text" id="city" name="city" placeholder="Cidade:" readonly><br><br>
+
+                <input type="text" id="state" name="state" placeholder="Estado:" readonly><br><br>
+
+                <input type="text" id="house_number" name="house_number" placeholder="Número:" required><br><br>
+
+                <button class="button3" type="submit" id="confirm">Próximo</button>
+            </form>
+            <a class="button3" href="javascript:history.back()">Voltar</a>
+        </section>
+
+        <script src="{{ url_for('static', path='/script.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                save_form('sixth');
+            });
+
+            document.getElementById('cep').addEventListener('blur', function() {
+                find_cep(this.value);
+            });
+        </script>
+    </body>
+</html>
