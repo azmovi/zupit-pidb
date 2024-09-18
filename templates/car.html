@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Carro</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="">
+        {% include 'navbar.html' %}
+        <h1>Cadastro do Carro</h1>
+        <form method="POST" action="/cars">
+            <input type="text" id="renavam" placeholder="RENAVAM" name="renavam" required><br><br>
+    
+            <input type="text" id="brand" placeholder="Marca" name="brand" required><br><br>
+    
+            <input type="text" id="model" placeholder="Modelo" name="model" required><br><br>
+    
+            <input type="text" id="plate" placeholder="Placa" name="plate" required><br><br>
+    
+            <input type="text" id="color" placeholder="Cor" name="color" required><br><br>
+    
+            <button class="button3" type="submit">Enviar</button>
+        </form>
+        <button class="button3" onclick="loadCars()">Ver lista de carros</button>
+        <ul id="car-list"></ul>
+        <a class="button3" href="/search-travel">Voltar para o início</a>
+    </section>
+
+    <script>
+        const userId = {{ user.id }};
+        
+        async function loadCars() {
+            const response = await fetch(`/cars/${userId}/`);
+            if (response.ok) {
+                const cars = await response.json();
+                renderCars(cars);
+            } else {
+                alert('Erro ao carregar a lista de carros.');
+            }
+        }
+
+        function renderCars(cars) {
+            const carList = document.getElementById('car-list');
+            carList.innerHTML = ''; // Limpa a lista antes de renderizar
+
+            if (cars && cars.cars && cars.cars.length > 0) {
+                cars.cars.forEach(car => {
+                    const li = document.createElement('li');
+                    li.textContent = `RENAVAM: ${car.renavam} | Marca: ${car.brand} | Modelo: ${car.model} | Placa: ${car.plate} | Cor: ${car.color}`;
+                    carList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'Nenhum carro encontrado.';
+                carList.appendChild(li);
+            }
+        }
+    </script>
+</body>
+</html>

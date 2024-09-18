@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="">
+        {% include 'navbar.html' %}
+        <h1>FAÇA SEU CADASTRO</h1>
+        <form method="POST" action="/users">
+            <input type="text" id="name" placeholder="Nome Completo" name="name" required><br><br>
+    
+            <input type="email" id="email" placeholder="E-mail" name="email" required><br><br>
+    
+            <input type="password" id="password" placeholder="Senha" name="password" required><br><br>
+    
+            <label for="birthday">Data de Nascimento:</label>
+            <input type="date" id="birthday" name="birthday" required><br><br>
+    
+            <label for="sex">Sexo:</label>
+            <select id="sex" name="sex">
+                <option value="MAN">Homem</option>
+                <option value="WOMAN">Mulher</option>
+            </select><br><br>
+            <div class="justify-start">
+                <label>Nacionalidade:</label><br>
+                <input type="radio" id="brazilian" name="nationality" value="BRAZILIAN" checked>
+                <label for="brazilian">Brasileiro</label><br>
+                
+                <input type="radio" id="foreigner" name="nationality" value="FOREIGNER">
+                <label for="foreigner">Estrangeiro</label><br><br>
+            </div>
+    
+            <div id="brazilian_label">
+                <input type="text"  placeholder="CPF" id="cpf" name="cpf"><br><br>
+            </div>
+    
+            <div id="foreigner_label" class="hidden">
+                <input type="text" placeholder="RNM" id="rnm" name="rnm"><br><br>
+            </div>
+    
+            <button class="button3" type="submit">Enviar</button>
+        </form>
+        <a class="button3" href="/sign-in">Ja possui cadastro?</a>
+    </section>
+
+    <script>
+        document.querySelectorAll('input[name="nationality"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                var brazilian_label = document.getElementById('brazilian_label');
+                var foreigner_label = document.getElementById('foreigner_label');
+
+                if (document.getElementById('brazilian').checked) {
+                    brazilian_label.classList.remove('hidden');
+                    foreigner_label.classList.add('hidden');
+                } else {
+                    brazilian_label.classList.add('hidden');
+                    foreigner_label.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
