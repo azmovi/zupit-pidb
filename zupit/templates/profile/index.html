@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Usuário</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin: 1px auto; 
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: -20px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        strong {
+            color: #333;
+        }
+        .user-info {
+            margin-bottom: 0px;
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        a.button {
+            display: inline-block;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 11px 19px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        a.button:hover {
+            background-color: #45a049;
+        }
+        a.button-secondary {
+            background-color: #f44336;
+        }
+        a.button-secondary:hover {
+            background-color: #e53935;
+        }
+        a.button-offer {
+            background-color: #008CBA;
+        }
+        a.button-offer:hover {
+            background-color: #007bb5;
+        }
+        @media (max-width: 768px) {
+            section {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            a.button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body user_id="{{ user.id }}">
+    <section>
+        <!-- Incluindo a barra de navegação -->
+        {% include 'navbar.html' %}
+        <h1>Perfil do Usuário</h1>
+        <div class="user-info">
+            <p><strong>Nome:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Nota de passageiro:</strong> {{ user.passenger_rating }}</p>
+            <p><strong>Documento:</strong> {{ user.doc }}</p>
+            <p id="is-driver" style="display:none;"><strong>Dados de Motorista:</strong></p>
+            <p id="driver-rating-container" style="display:none;"><strong>Nota:</strong> <span id="driver-rating"></span></p>
+            <p id="driver-cnh-container" style="display:none;"><strong>CNH:</strong> <span id="driver-cnh"></span></p>
+        </div>
+
+        <!-- Botões de navegação -->
+        <div class="btn-container">
+            <a href="/chats" class="button">Minhas Conversas</a>
+            <a href="/profile/my-travels" class="button">Minhas Viagens</a>
+            <a href="/offer" class="button button-offer">Oferecer Carona</a>
+            <a href="/logoff" class="button button-secondary">Sair</a>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userAtualId = document.body.getAttribute('user_id');
+ 
+            fetch(`/drivers/${userAtualId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('Motorista não encontrado.');
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.rating) {
+                        const notaMotorista = data.rating;
+                        const cnhMotorista = data.cnh;
+                        document.getElementById('is-driver').style.display = 'block';
+                        document.getElementById('driver-rating-container').style.display = 'block';            
+                        document.getElementById('driver-rating').textContent = notaMotorista.toFixed(1);
+                        document.getElementById('driver-cnh-container').style.display = 'block';            
+                        document.getElementById('driver-cnh').textContent = cnhMotorista;
+                    }
+                })
+                .catch(error => {
+                    console.log('Erro ao carregar motorista existente:', error);
+                });
+        });
+    </script>
+</body>
+</html>

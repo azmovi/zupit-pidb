@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Carro</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="">
+        {% include 'navbar.html' %}
+        <h1>Cadastro do Carro</h1>
+        <form method="POST" action="/cars">
+            <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
+
+            <input type="text" id="renavam" placeholder="RENAVAM" name="renavam" required><br><br>
+    
+            <input type="text" id="brand" placeholder="Marca" name="brand" required><br><br>
+    
+            <input type="text" id="model" placeholder="Modelo" name="model" required><br><br>
+    
+            <input type="text" id="plate" placeholder="Placa" name="plate" required><br><br>
+    
+            <input type="text" id="color" placeholder="Cor" name="color" required><br><br>
+    
+            <button class="button3" type="submit">Enviar</button>
+        </form>
+        <a href="javascript:history.back()">Voltar</a>
+    </section>
+
+    <script>
+    </script>
+</body>
+</html>
+

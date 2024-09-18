@@ -105,12 +105,15 @@
     <body>
         <nav class="navbar">
             <div class="navbar-logo">
-                <img src="{{ url_for('static', path='assets/logo.png') }}" alt="Logo" width="50" height="50">
+                <a href="/search-travel">
+                    <img src="{{ url_for('static', path='assets/logo.png') }}" alt="Logo" width="50" height="50">
+                </a>
                 <h2>ZuPit</h2>
             </div>
             <ul class="navbar-links">
-                <li><a href="/search_travel" Procurar</a></li>
-                <li><a href="/offer" Oferecer Carona</a></li>
+                <li><a href="/chats">Minhas Conversas</a></li>
+                <li><a href="/profile/my-travels">Minhas Viagens</a></li>
+                <li><a href="/offer">Oferecer Carona</a></li>
                 <li>
                     <a class="user" href="/profile">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

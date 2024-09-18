@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Motorista</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        #content {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            text-align: left;
+            vertical-align: top;
+            resize: none;
+        }
+
+        ::placeholder {
+            text-align: left;
+        }
+    </style>
+</head>
+<body user_id="{{ user.id }}">
+    <section class="container">
+        {% include 'navbar.html' %}
+        <h1 id="page-title">Avalie o Motorista</h1>
+        <form method="POST" action="/rate">
+            <!-- Nota (grade) -->
+            <div class="justify-start">
+                <label>Nota:</label><br>
+                <input type="radio" id="otimo" name="grade" value="OTIMO" checked>
+                <label for="otimo">Ótimo</label><br>  
+
+                <input type="radio" id="bom" name="grade" value="BOM">
+                <label for="bom">Bom</label><br>
+                
+                <input type="radio" id="mediano" name="grade" value="MEDIANO">
+                <label for="mediano">Mediano</label><br>
+                
+                <input type="radio" id="ruim" name="grade" value="RUIM">
+                <label for="ruim">Ruim</label><br>
+                
+                <input type="radio" id="pessimo" name="grade" value="PESSIMO">
+                <label for="pessimo">Péssimo</label><br><br>
+            </div>
+
+            <!-- Conteúdo (explicação da nota) -->
+            <div id="rating_content">
+                <textarea id="content" name="content" placeholder="Explique sua nota aqui"></textarea><br><br>
+            </div>
+
+            <!-- Campos ocultos para enviar outros atributos -->
+            <input type="hidden" name="author_id" value="{{ user.id }}">
+            <input type="hidden" id="recipient_id" name="recipient_id" value="">
+            <input type="hidden" name="rate_type" value="CARONISTA"> 
+
+            <button class="button3" type="submit">Enviar Avaliação</button>
+        </form>
+    </section>
+
+    <script>
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            const url = window.location.pathname;
+            const recipientId = url.split('/').pop();  
+            const userAtualId = document.body.getAttribute('user_id');
+
+            document.getElementById('recipient_id').value = recipientId;
+            fetch(`/rate/edit/${recipientId}/${userAtualId}/CARONISTA`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Avaliação não encontrada');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const grade = data.grade;
+                    const gradeInput = document.querySelector(`input[name="grade"][value="${grade}"]`);
+                    if (gradeInput) {
+                        gradeInput.checked = true;
+                    }
+                    document.getElementById('content').value = data.content;
+                    document.getElementById('page-title').textContent = "Editar Avaliação do Motorista";
+                })
+                .catch(error => {
+                    console.log('Erro ao carregar a avaliação existente:', error);
+                });
+        });
+
+    </script>
+</body>
+</html>

@@ -7,24 +7,23 @@
     <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
 </head>
 <body>
+    {% if error %}
+        <script>
+            alert("{{ error }}");
+        </script>
+    {% endif %}
+
     <section id="pesquisa">
         {% include 'navbar.html' %}
-        <h1>
-            PARA ONDE VOCÊ QUER IR ?
-        </h1>
-        <form action="/get-travels" method="GET">
-            
+        <h1>PARA ONDE VOCÊ QUER IR?</h1>
+        <form action="/travels/search-travels" method="POST">
             <input type="text" id="leaving" name="leaving" placeholder="Digite a cidade de origem" required><br><br>
-            
-            <input type="text" id="going" placeholder="Digite a cidade de destino" name="going" required><br><br>
-            
-            <input type="date" id="date" name="date" placeholder="Selecione a data" required>
-            
+            <input type="text" id="going" name="going" placeholder="Digite a cidade de destino" required><br><br>
+            <input type="date" id="day" name="day" placeholder="Selecione o dia" required><br><br>
+            <button class="button2" type="submit">Pesquisar</button>
         </form>
-        <button class="button2" type="submit">
-            Pesquisar
-        </button>
-        {% if not user %}
+
+        {% if not user.id %}
             <div class="space-between">
                 <a class="button1" href="/sign-in">Entrar na conta</a>
                 <a class="button1" href="/sign-up">Cadastre-se</a>

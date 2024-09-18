@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Viagens</title>
+    <link href="{{ url_for('static', path='style.css') }}" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        section#historico {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #ffffff;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: #333; /* Adicionando cor ao texto das células */
+        }
+
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table tbody tr.past-travel {
+            background-color: #d4edda !important; /* Verde para viagens realizadas */
+        }
+        table tbody tr.future-travel {
+            background-color: #fff3cd !important; /* Amarelo para viagens futuras */
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        .space-between {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .button1 {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button1:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body user_id="{{ user.id }}">
+    <section id="historico">
+        <!-- Incluindo a barra de navegação -->
+        {% include 'navbar.html' %}
+        
+        <h1>Histórico de Viagens</h1>
+        <!-- Exibir a lista de viagens -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Data da Viagem</th>
+                    <th>Horário de Saída</th>
+                    <th>Distância</th>
+                    <th>Duração</th>
+                    <th>Ver Participantes</th> <!-- Coluna para o botão -->
+                </tr>
+            </thead>
+            <tbody id="travel-table-body">
+                <tr>
+                    <td colspan="7">Carregando...</td>  <!-- Alterado para colspan="7" -->
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <script src="{{ url_for('static', path='/script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const user_id = document.body.getAttribute('user_id');
+            console.log("user_id:", user_id);
+            get_travels(user_id);
+        });
+
+    </script>
+</body>
+</html>

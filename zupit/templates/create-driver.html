@@ -16,9 +16,13 @@
         {% include 'navbar.html' %}
         <h1>Cadastro de Caroneiro</h1>
         <form method="POST" action="/drivers">
-            <input type="hidden" id="user_id" name="user_id" value="{{  user.id }}"/>
+
+            <input type="hidden" id="user_id" name="user_id" value="{{ user.id }}"/>
+
             <input type="text" id="cnh" placeholder="CNH" name="cnh" required><br><br>
+
             <input type="text" id="preferences" placeholder="Suas preferências" name="preferences"><br><br>
+
             <button class="button3" type="submit">Enviar</button>
         </form>
         <a class="button3" href="/search-travel">Voltar</a>
